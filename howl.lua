@@ -1,4 +1,4 @@
-getgenv().Howl = {
+getgenv().sentinel = {
         ['Options'] = {
             Intro = true,
             Type = "Target",
@@ -38,7 +38,7 @@ getgenv().Howl = {
                 PredictionAdjuster = false,
                 
                 ['MultipleParts'] = {
-                    Enabled = false,
+                    Enabled = True,
                     Parts = { "Head", "UpperTorso", "HumanoidRootPart", "LowerTorso" },
                 },
 
@@ -59,12 +59,12 @@ getgenv().Howl = {
         ['Misc'] = {
             ['Checks'] = {
                 KnockedChecks = true,
-                TargetDeath = false,
-                PlayerDeath = false,
-                WallCheck = false,
+                TargetDeath = true,
+                PlayerDeath = true,
+                WallCheck = true,
                 ['Resolver'] = {
                     Enabled = false,
-                    Notification = true,
+                    Notification = false,
                 },
             },
             ['Macro'] = {
@@ -95,10 +95,10 @@ getgenv().Howl = {
     }
 
     if getgenv().Loaded == true then
-        if Howl.Options.UpdateNotification == true then
+        if sentinel.Options.UpdateNotification == true then
             game:GetService("StarterGui"):SetCore("SendNotification", {
-                Title = "discord.gg/howlcc",
-                Text = "Updated Script Settings.",
+                Title = "discord.gg/7mjx53xMYv",
+                Text = "Welcome to Sentinal X - Alpha",
                 Duration = 0.01,
             })
         end
@@ -106,8 +106,8 @@ getgenv().Howl = {
     end
 
     -- // intro Settings
-    if getgenv().Howl.Options.Intro then
-        local ImageIdfr = "http://www.roblox.com/asset/?id=82889871345333"
+    if getgenv().sentinel.Options.Intro then
+        local ImageIdfr = "http://www.roblox.com/asset/?id=119906580436119"
         
         local Intro = {
             Intro = Instance.new("ScreenGui"),
@@ -256,7 +256,7 @@ getgenv().Howl = {
     end
 
     local wallCheck = function(character: Model)
-        if Howl.Misc.Checks.WallCheck ~= true then
+        if sentinel.Misc.Checks.WallCheck ~= true then
             return true
         end
 
@@ -274,7 +274,7 @@ getgenv().Howl = {
     end
 
     local velocityCheck = function(character: Model)
-        if not Howl.Misc.Checks.Resolver.Enabled == true then
+        if not sentinel.Misc.Checks.Resolver.Enabled == true then
             return false
         end
 
@@ -297,7 +297,7 @@ getgenv().Howl = {
 
         local prediction = config.Prediction
         local velocity = part.Velocity
-        local max = Howl.PredictionAdjuster.VelocityThreshold
+        local max = sentinel.PredictionAdjuster.VelocityThreshold
 
         return prediction + ((prediction * 1.5) - prediction) * min(velocity.Magnitude / max, 1)
     end
@@ -306,7 +306,7 @@ getgenv().Howl = {
         local shortestDistance = radius
         local closestPlayer = nil
         local mousePosition = getMouseLocation(inputService)
-        local part = Howl.Combat.Aimbot.Part
+        local part = sentinel.Combat.Aimbot.Part
 
         for _, player in next, getPlayers(players) do
             local character = player.Character
@@ -378,7 +378,7 @@ getgenv().Howl = {
 
     runService.Heartbeat:Connect(function(deltaTime: number)
 
-        local aimbot = Howl.Combat.Aimbot
+        local aimbot = sentinel.Combat.Aimbot
 
         if targetPlayer ~= nil and isLocking == true and targetPlayer.Character ~= nil then
             local character = targetPlayer.Character
@@ -410,7 +410,7 @@ getgenv().Howl = {
             local goal = newCFrame(camera.CFrame.Position, goalPosition)
             camera.CFrame = camera.CFrame:Lerp(goal, alpha)
 
-            local checks = Howl.Misc.Checks
+            local checks = sentinel.Misc.Checks
 
             if checks.KnockedChecks == true then
                 local isKO = findFirstChild(character, "BodyEffects")["K.O"].Value
@@ -436,8 +436,8 @@ getgenv().Howl = {
     -- // 360 Main
 
     runService.RenderStepped:Connect(function(deltaTime: number) -- RenderStepped is better for this function :)
-        if toggle360 == true and Howl.Misc["360"].Enabled == true then
-            local rotationIncrement = rad(Howl.Misc["360"].Speed * deltaTime)
+        if toggle360 == true and sentinel.Misc["360"].Enabled == true then
+            local rotationIncrement = rad(sentinel.Misc["360"].Speed * deltaTime)
             local remainingRotation = fullCircleRotation - totalRotation
             rotationIncrement = rotationIncrement > remainingRotation and remainingRotation or rotationIncrement
 
@@ -461,10 +461,10 @@ getgenv().Howl = {
     local childRemovedConnection
 
     local childActivatedFunction = function()
-        local silentTarget = upper(Howl.Options.Type) == "FOV" and getClosestPlayerToCursor(Howl.FieldOfView.Size) or targetPlayer
+        local silentTarget = upper(sentinel.Options.Type) == "FOV" and getClosestPlayerToCursor(sentinel.FieldOfView.Size) or targetPlayer
 
         if isLocking and silentTarget and silentTarget.Character then
-            local silent = Howl.Combat.Silent
+            local silent = sentinel.Combat.Silent
             local character = silentTarget.Character
             local targetPart = silent.MultipleParts.Enabled
                     and getClosestPartFromPlayerToCursor(silent.MultipleParts, character)
@@ -538,7 +538,7 @@ getgenv().Howl = {
 
     localPlayer.CharacterAdded:Connect(onCharacterAdded)
 
-    -- // Make sure silent aim works if player is holding a gun while executing Howl
+    -- // Make sure silent aim works if player is holding a gun while executing sentinel
 
     local currentTool = nil
     for _, v in next, getChildren(localPlayer.Character) do
@@ -557,13 +557,13 @@ getgenv().Howl = {
         end
 
         local inputKeyCode = input.KeyCode
-        local keyBind = Howl.Options.Keybind
+        local keyBind = sentinel.Options.Keybind
 
         if inputKeyCode == enumKeyCode[sub(upper(keyBind.Aimbot), 1, 1)] then
             isLocking = not isLocking
             targetPlayer = isLocking and getClosestPlayerToCursor(inf) or nil
         elseif inputKeyCode == enumKeyCode[sub(upper(keyBind.Resolver), 1, 1)] then
-            local Resolver = Howl.Misc.Checks.Resolver
+            local Resolver = sentinel.Misc.Checks.Resolver
 
             Resolver.Enabled = not Resolver.Enabled
             if Resolver.Notification == true then
@@ -576,8 +576,8 @@ getgenv().Howl = {
         elseif inputKeyCode == enumKeyCode[sub(upper(keyBind.Flip360), 1, 1)] then
             toggle360 = not toggle360
         end
-        if Howl.Misc.Macro.Enabled == true then
-            local macro = Howl.Misc.Macro
+        if sentinel.Misc.Macro.Enabled == true then
+            local macro = sentinel.Misc.Macro
 
             if inputKeyCode == enumKeyCode[sub(upper(keyBind.Macro), 1, 1)] and macro.Type == "Third" then
                 speedGlitching = not speedGlitching
@@ -643,7 +643,7 @@ getgenv().Howl = {
 
     player.CharacterAdded:Connect(updateCharacter)
 
-    local proximityDistance = getgenv().Howl.Misc.Autobuy.ProximityDistance or 10
+    local proximityDistance = getgenv().sentinel.Misc.Autobuy.ProximityDistance or 10
 
     local targetPositions = {
         Vector3.new(-635.77001953125, 18.855512619018555, -119.34500122070312),
@@ -701,7 +701,7 @@ getgenv().Howl = {
     -- Connect function to start buying when key is held
     UserInputService.InputBegan:Connect(function(input, isProcessed)
         if not isProcessed and input.UserInputType == Enum.UserInputType.Keyboard then
-            local currentHoldKey = Enum.KeyCode[getgenv().Howl.Options.Keybind.AutoBuyKeyBind]
+            local currentHoldKey = Enum.KeyCode[getgenv().sentinel.Options.Keybind.AutoBuyKeyBind]
             
             if input.KeyCode == currentHoldKey then
                 isLoopActive = true
@@ -713,7 +713,7 @@ getgenv().Howl = {
     -- Connect function to stop buying when key is released
     UserInputService.InputEnded:Connect(function(input, isProcessed)
         if not isProcessed and input.UserInputType == Enum.UserInputType.Keyboard then
-            local currentHoldKey = Enum.KeyCode[getgenv().Howl.Options.Keybind.AutoBuyKeyBind]
+            local currentHoldKey = Enum.KeyCode[getgenv().sentinel.Options.Keybind.AutoBuyKeyBind]
             
             if input.KeyCode == currentHoldKey then
                 isLoopActive = false
@@ -723,7 +723,7 @@ getgenv().Howl = {
 
     local function setAutobuyKeybind(key)
         if Enum.KeyCode[key] then
-            getgenv().Howl.Options.Keybind.AutoBuyKeyBind = key
+            getgenv().sentinel.Options.Keybind.AutoBuyKeyBind = key
         end
     end
 
@@ -732,8 +732,8 @@ getgenv().Howl = {
     local runService = game:GetService("RunService")
 
     local isMoving = false
-    local speedMultiplier = getgenv().Howl.Cframe.Options.DefaultSpeed
-    local enable = getgenv().Howl.Cframe.Options.Enabled
+    local speedMultiplier = getgenv().sentinel.Cframe.Options.DefaultSpeed
+    local enable = getgenv().sentinel.Cframe.Options.Enabled
 
     local function moveCharacter(humanoidRootPart)
         runService.Stepped:Connect(function()
@@ -757,7 +757,7 @@ getgenv().Howl = {
         userInputService.InputBegan:Connect(function(input, gameProcessedEvent)
             if gameProcessedEvent then return end
 
-            if input.KeyCode.Name == getgenv().Howl.Cframe.Options.Keybinds.ToggleMovement then
+            if input.KeyCode.Name == getgenv().sentinel.Cframe.Options.Keybinds.ToggleMovement then
                 isMoving = not isMoving
                 if isMoving then
                     moveCharacter(humanoidRootPart)
@@ -766,7 +766,7 @@ getgenv().Howl = {
         end)
 
         runService.RenderStepped:Connect(function()
-            speedMultiplier = getgenv().Howl.Cframe.Options.DefaultSpeed
+            speedMultiplier = getgenv().sentinel.Cframe.Options.DefaultSpeed
         end)
     end
 
@@ -779,7 +779,7 @@ getgenv().Howl = {
     end)
 
     game:GetService("RunService").Heartbeat:Connect(function()
-        enable = getgenv().Howl.Cframe.Options.Enabled
+        enable = getgenv().sentinel.Cframe.Options.Enabled
     end)
 
     getgenv().Loaded = true
