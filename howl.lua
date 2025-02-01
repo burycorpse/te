@@ -107,7 +107,7 @@ getgenv().sentinel = {
 
     -- // intro Settings
     if getgenv().sentinel.Options.Intro then
-        local ImageIdfr = "https://tr.rbxcdn.com/180DAY-f59c22746c5f0f0a7c312c622321efd8/420/420/Image/Webp/noFilter"
+        local ImageIdfr = "rbxassetid://119906580436119"
         
         local Intro = {
             Intro = Instance.new("ScreenGui"),
