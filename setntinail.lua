@@ -1,5 +1,5 @@
 getgenv().PradaV2 = {
-    ['Key'] = "jqJYNZHjvUnCApkrfBDqavckuoHLXkgr",
+    ['Key'] = "jFNiKHVDCctpkCYMHDxKuDmrkAkjUxWa",
 
     ['Extra'] = {
         ['Keybinds'] = {
